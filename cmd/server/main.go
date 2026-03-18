@@ -9,6 +9,7 @@ import (
 	"shipment/internal/application"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
 	pb "shipment/gen"
 	infraPostgres "shipment/internal/infra/postgres"
@@ -46,6 +47,7 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterShipmentServiceServer(grpcServer, handler)
+	reflection.Register(grpcServer)
 
 	log.Printf("gRPC server listening on port %s", grpcPort)
 	if err := grpcServer.Serve(lis); err != nil {
